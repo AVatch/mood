@@ -19,5 +19,33 @@ angular.module('mood', ['ionic'])
 })
 
 .controller('AppController', ['$scope', function($scope){
-  console.log('mood');
+  var date = new Date();
+  var calDaysLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  var calMonthsLabels = ['January', 'February', 'March', 'April',
+                         'May', 'June', 'July', 'August', 'September',
+                         'October', 'November', 'December'];
+  var calDaysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+  
+  function Calendar(month, year){
+    this.month = (isNaN(month) || month == null) ? date.getMonth() : month;
+    this.year = (isNaN(year) || year == null) ? date.getYear() : year;
+    this.html = '';
+  }
+  
+  Calendar.prototype.generateHTML = function(){
+    var firstDate = new Date(this.year, this.month, 1);
+    var firstDay = firstDate.getDay();
+    var monthLength = calDaysInMonth[this.month];
+    
+    // take into account leap years o.O
+    if (this.month == 1) { // February only!
+      if ((this.year % 4 == 0 && this.year % 100 != 0) || this.year % 400 == 0){
+        monthLength = 29;
+      }
+    }
+
+  }
+  
+  
 }]);
